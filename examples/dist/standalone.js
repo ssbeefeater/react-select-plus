@@ -2447,11 +2447,13 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 	});
 
 	return options.filter(function (option) {
+
 		if (excludeOptions && excludeOptions.indexOf(option[props.valueKey]) > -1) return false;
 		if (props.filterOption) return props.filterOption.call(_this, option, filterValue);
 		if (!filterValue) return true;
 		var valueTest = String(option[props.valueKey]);
 		var labelTest = String(option[props.labelKey]);
+
 		if (props.ignoreAccents) {
 			if (props.matchProp !== 'label') valueTest = (0, _stripDiacritics2['default'])(valueTest);
 			if (props.matchProp !== 'value') labelTest = (0, _stripDiacritics2['default'])(labelTest);
@@ -2460,7 +2462,8 @@ function filterOptions(options, filterValue, excludeOptions, props) {
 			if (props.matchProp !== 'label') valueTest = valueTest.toLowerCase();
 			if (props.matchProp !== 'value') labelTest = labelTest.toLowerCase();
 		}
-		return props.matchPos === 'start' ? props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue || props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue : props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0 || props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0;
+
+		return props.matchPos === 'start' ? props.matchProp !== 'label' && valueTest.substr(0, filterValue.length) === filterValue || props.matchProp !== 'value' && labelTest.substr(0, filterValue.length) === filterValue : props.matchProp !== 'label' && valueTest.indexOf(filterValue) >= 0 || props.matchProp !== 'value' && labelTest.indexOf(filterValue) >= 0 || option.group && option.group.label.toLowerCase().includes(filterValue);
 	});
 }
 
